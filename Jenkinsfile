@@ -4,22 +4,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building app...'
                 sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
                 sh 'npm test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                echo 'Building Docker image...'
-                sh 'docker build -t my-app .'
+                sh 'docker build -t wojtek0/my-app:latest .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                sh 'docker login -u wojtek0 -p YOUR_PASSWORD'
+                sh 'docker push wojtek0/my-app:latest'
             }
         }
     }
